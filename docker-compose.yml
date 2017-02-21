@@ -8,15 +8,3 @@ services:
       - "8888:8888"
     volumes:
       - ./work:/home/jovyan/work
-  api:
-    build: .
-    container_name: test
-    command: >
-      jupyter kernelgateway
-      --KernelGatewayApp.api=notebook-http
-      --KernelGatewayApp.ip=0.0.0.0
-      --KernelGatewayApp.seed_uri='./api_notebook.ipynb'
-    ports: 
-      - "8889:8888"
-    volumes:
-      - ./work:/home/jovyan/work
