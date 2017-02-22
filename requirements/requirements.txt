@@ -6,4 +6,4 @@ pyOpenSSL
 earthengine-api
 ipython-sql
 version_information
-
+tqdm

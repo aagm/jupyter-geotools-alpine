@@ -1,5 +1,5 @@
 FROM gliderlabs/alpine:latest
-MAINTAINER test Project
+MAINTAINER @AlyGM
 # Based on this project https://github.com/show0k/alpine-jupyter-docker
 
 USER root
@@ -17,7 +17,6 @@ ENV MINICONDA_VER 4.2.12
 ENV MINICONDA Miniconda3-$MINICONDA_VER-Linux-x86_64.sh
 ENV MINICONDA_URL https://repo.continuum.io/miniconda/$MINICONDA
 ENV MINICONDA_MD5_SUM d0c7c71cc5659e54ab51f2005a8d96f3
-
 
 RUN apk --update add \
     wget \
@@ -37,9 +36,6 @@ RUN apk --update add \
     libxrender \
     vim \
     openssl \
-    py-pip  \
-    py-numpy \
-    python \
     --update-cache \
     --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
     --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
@@ -60,26 +56,22 @@ RUN apk --update add \
         "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    \
     rm "/etc/apk/keys/sgerrand.rsa.pub" && \
     /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 C.UTF-8 || true && \
     echo "export LANG=C.UTF-8" > /etc/profile.d/locale.sh && \
-    \
     apk del glibc-i18n && \
     apk del .build-dependencies && \
     rm \
         "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    apk --update add --virtual build-dependencies \
-        python-dev \
+        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" \
+    && apk --update add --virtual build-dependencies \
         build-base \
         gdal-dev \
         geos-dev \
-        py-numpy-dev \
         --update-cache \
         --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
-        --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+        --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted  \
     && apk del build-dependencies
 
 ENV LANG=C.UTF-8
@@ -109,7 +101,8 @@ RUN mkdir /home/$NB_USER/work && \
 # Install Python 2 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
-RUN conda install --quiet --yes \
+COPY env/python2environment.yml /home/$NB_USER/env/python2environment.yml
+RUN conda install --quiet --yes python=3.5 \
     notebook \
     terminado \
     ipywidgets \
@@ -120,7 +113,6 @@ RUN conda install --quiet --yes \
     'pandas=0.19*' \
     'beautifulsoup4=4.5.*' \
     'vincent=0.4.*' \
-    'shapely=1.5*' \
     'cython=0.23*' \
     'ipywidgets=5.2*' \
     'numexpr=2.6*' \
@@ -143,48 +135,28 @@ RUN conda install --quiet --yes \
     'h5py=2.6*' \
     'xlrd' \
     && conda clean -yt \
-    && conda create -p $CONDA_DIR/envs/python2 python=2.7 \
-    'nomkl' \
-    'numpy=1.11*' \
-    'rasterio=0.36.*' \
-    'fiona=1.7*' \
-    'pandas=0.19*' \
-    'beautifulsoup4=4.5.*' \
-    'vincent=0.4.*' \
-    'shapely=1.5*' \
-    'cython=0.23*' \
-    'ipython=4.2*' \
-    'ipywidgets=5.2*' \
-    'numexpr=2.6*' \
-    'matplotlib=1.5*' \
-    'scipy=0.17*' \
-    'seaborn=0.7*' \
-    'scikit-learn=0.18*' \
-    'scikit-image=0.12*' \
-    'sympy=1.0*' \
-    'patsy=0.4*' \
-    'statsmodels=0.6*' \
-    'cloudpickle=0.1*' \
-    'dill=0.2*' \
-    'numba=0.30*' \
-    'bokeh=0.11*' \
-    'hdf5=1.8.17' \
-    'h5py=2.6*' \
-    'sqlalchemy=1.0*' \
-    'pyzmq' \
-    'xlrd' \
-    && conda clean -yt
-
-RUN conda install -c conda-forge jupyter_contrib_nbextensions && \
-    conda install -c conda-forge jupyter_nbextensions_configurator \
-    && conda clean -yt
+    && conda install -c conda-forge \
+        jupyter_contrib_nbextensions \
+        jupyter_nbextensions_configurator \
+        shapely \
+    && conda install -c ioos rtree=0.8.2 \
+    && conda clean -yt \
+    && conda env create -p $CONDA_DIR/envs/python2 -f /home/$NB_USER/env/python2environment.yml\
+    && ls \
+    && conda clean -yt \
+    && mv /sbin/ldconfig /sbin/ldconfig_old \ 
+    && ln /usr/glibc-compat/sbin/ldconfig /sbin/ldconfig
+    
 
 USER root
-COPY requirements.txt /home/$NB_USER/requirements.txt
+
+# Install non core dependencies from conda and pip
+COPY requirements/requirements.txt /home/$NB_USER/requirements.txt
 RUN pip install --upgrade pip && \ 
-    pip install -r /home/$NB_USER/requirements.txt 
-
-
+    pip install -r /home/$NB_USER/requirements.txt \
+    && rm \ 
+        /home/$NB_USER/requirements.txt \
+        /home/$NB_USER/env/python2environment.yml
 
 
 EXPOSE 8888
