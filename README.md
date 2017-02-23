@@ -7,8 +7,8 @@ Just type `sh jupyter.sh develop` and you will be able to connect to `0.0.0.0:88
 run this if you wanna access the docker
 
 ``` bash
-docker  exec -i -t 07fdb1ffde2c /bin/bash
-```
+docker  exec -i -t {{container id}} /bin/bash
+``
 
 To be able to connect to ee run in the internal console `earthengine authenticate` and follow the instructions
 
