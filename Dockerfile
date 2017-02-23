@@ -143,12 +143,12 @@ RUN conda install --quiet --yes python=3.5 \
     && conda clean -yt \
     && conda env create -p $CONDA_DIR/envs/python2 -f /home/$NB_USER/env/python2environment.yml\
     && ls \
-    && conda clean -yt \
-    && mv /sbin/ldconfig /sbin/ldconfig_old \ 
-    && ln /usr/glibc-compat/sbin/ldconfig /sbin/ldconfig
+    && conda clean -yt 
     
 
 USER root
+RUN mv /sbin/ldconfig /sbin/ldconfig_old \ 
+    && ln /usr/glibc-compat/sbin/ldconfig /sbin/ldconfig
 
 # Install non core dependencies from conda and pip
 COPY requirements/requirements.txt /home/$NB_USER/requirements.txt
