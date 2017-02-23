@@ -8,7 +8,7 @@ run this if you wanna access the docker
 
 ``` bash
 docker  exec -i -t 07fdb1ffde2c /bin/bash
-``
+```
 
 To be able to connect to ee run in the internal console `earthengine authenticate` and follow the instructions
 
