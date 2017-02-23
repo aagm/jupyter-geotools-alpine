@@ -34,6 +34,9 @@ RUN apk --update add \
     glib \
     libxext \
     libxrender \
+    ttf-dejavu \
+    gfortran \
+    gcc \
     vim \
     openssl \
     --update-cache \
@@ -143,6 +146,24 @@ RUN conda install --quiet --yes python=3.5 \
     && conda clean -yt \
     && conda env create -p $CONDA_DIR/envs/python2 -f /home/$NB_USER/env/python2environment.yml\
     && ls \
+    && conda clean -yt \
+    && conda config --add channels r \
+    && conda install --quiet --yes \
+    'r-base=3.3.2' \
+    'r-irkernel=0.7*' \
+    'r-plyr=1.8*' \
+    'r-devtools=1.12*' \
+    'r-tidyverse=1.0*' \
+    'r-shiny=0.14*' \
+    'r-rmarkdown=1.2*' \
+    'r-forecast=7.3*' \
+    'r-rsqlite=1.1*' \
+    'r-reshape2=1.4*' \
+    'r-nycflights13=0.2*' \
+    'r-caret=6.0*' \
+    'r-rcurl=1.95*' \
+    'r-crayon=1.3*' \
+    'r-randomforest=4.6*' \
     && conda clean -yt 
     
 
@@ -151,11 +172,17 @@ RUN mv /sbin/ldconfig /sbin/ldconfig_old \
     && ln /usr/glibc-compat/sbin/ldconfig /sbin/ldconfig
 
 # Install non core dependencies from conda and pip
-COPY requirements/requirements.txt /home/$NB_USER/requirements.txt
+COPY requirements/piprequirements.txt /home/$NB_USER/piprequirements.txt
+COPY requirements/piprequirements.txt /home/$NB_USER/condap2_requirements.txt
+COPY requirements/piprequirements.txt /home/$NB_USER/condap3_requirements.txt
+COPY requirements/piprequirements.txt /home/$NB_USER/condar_requirements.txt
 RUN pip install --upgrade pip && \ 
-    pip install -r /home/$NB_USER/requirements.txt \
+    pip install -r /home/$NB_USER/piprequirements.txt \
     && rm \ 
-        /home/$NB_USER/requirements.txt \
+        /home/$NB_USER/piprequirements.txt \
+        /home/$NB_USER/condap2_requirements.txt \
+        /home/$NB_USER/condap3_requirements.txt \
+        /home/$NB_USER/condar_requirements.txt \
         /home/$NB_USER/env/python2environment.yml
 
 
