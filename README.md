@@ -1,5 +1,12 @@
 # Geodata Science Notebooks for Reproducible Science
 
+First clone the notebook with this command  so the submodule projects is added to it
+
+``` bash
+git clone --recursive -j8 git@github.com:aagm/jupyter-geotools-alpine.git
+cd jupyter-geotools-alpine
+```
+
 Use this as a template for your data science computing notebooks. You need docker and docker-compose.
 
 Just type `sh jupyter.sh develop` and you will be able to connect to `0.0.0.0:8888`.
@@ -8,9 +15,14 @@ run this if you wanna access the docker
 
 ``` bash
 docker  exec -i -t {{container id}} /bin/bash
-``
-
+```
 To be able to connect to ee run in the internal console `earthengine authenticate` and follow the instructions
+
+To commit changes made on the project submodule just:
+```
+cd work/projects
+```
+And pull push and comit as usual.
 
 ## For development
 
