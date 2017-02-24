@@ -173,11 +173,17 @@ RUN mv /sbin/ldconfig /sbin/ldconfig_old \
 
 # Install non core dependencies from conda and pip
 COPY requirements/piprequirements.txt /home/$NB_USER/piprequirements.txt
-COPY requirements/piprequirements.txt /home/$NB_USER/condap2_requirements.txt
-COPY requirements/piprequirements.txt /home/$NB_USER/condap3_requirements.txt
-COPY requirements/piprequirements.txt /home/$NB_USER/condar_requirements.txt
+COPY requirements/condap2_requirements.txt /home/$NB_USER/condap2_requirements.txt
+COPY requirements/condap3_requirements.txt /home/$NB_USER/condap3_requirements.txt
+COPY requirements/condar_requirements.txt /home/$NB_USER/condar_requirements.txt
 RUN pip install --upgrade pip && \ 
     pip install -r /home/$NB_USER/piprequirements.txt \
+    && conda install --quiet --yes --file /home/$NB_USER/condap3_requirements.txt \
+    && conda clean -yt \
+    && conda install --quiet --yes --file /home/$NB_USER/condar_requirements.txt  \
+    && conda clean -yt \
+    && conda install --quiet --yes --name python2 --file /home/$NB_USER/condap2_requirements.txt \
+    && conda clean -yt \
     && rm \ 
         /home/$NB_USER/piprequirements.txt \
         /home/$NB_USER/condap2_requirements.txt \
@@ -200,6 +206,7 @@ CMD ["start-notebook.sh"]
 # Switch back to $NB_USER to avoid accidental container runs as root
 COPY start-notebook.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /home/$NB_USER/.jupyter/
+COPY custom/custom.css /home/$NB_USER/.jupyter/custom/custom.css
 RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter && \
     chmod +x /usr/local/bin/start-notebook.sh && \
     $CONDA_DIR/envs/python2/bin/python \
