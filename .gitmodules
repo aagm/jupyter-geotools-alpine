@@ -3,7 +3,7 @@
 	url = git@github.com:aagm/projects.git
 
 [submodule "work/eubon_butterflies"]
-	path = work/proj-test
+	path = work/eubon_butterflies
 	url = git@github.com:Vizzuality/eubon_butterflies.git
 
 
