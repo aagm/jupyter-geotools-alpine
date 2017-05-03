@@ -3,6 +3,9 @@ services:
   develop:
     build: .
     container_name: viz-notebook
+    environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Europe/Stockholm
     command: start-notebook.sh --NotebookApp.token=''
     ports:
       - "8888:8888"

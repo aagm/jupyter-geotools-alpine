@@ -190,8 +190,9 @@ RUN pip install --upgrade pip && \
         /home/$NB_USER/condap2_requirements.txt \
         /home/$NB_USER/condap3_requirements.txt \
         /home/$NB_USER/condar_requirements.txt \
-        /home/$NB_USER/env/python2environment.yml
-
+        /home/$NB_USER/env/python2environment.yml \
+    && conda upgrade notebook \
+    && conda clean -yt 
 
 EXPOSE 8888
 
