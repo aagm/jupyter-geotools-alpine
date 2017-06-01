@@ -10,6 +10,7 @@ c = get_config()
 c.NotebookApp.ip = '*'
 c.NotebookApp.port = 8888
 c.NotebookApp.open_browser = False
+c.NotebookApp.iopub_data_rate_limit = 10000000
 c.InteractiveShell.ast_node_interactivity = "all"
 
 # Set a certificate if USE_HTTPS is set to any value

@@ -177,7 +177,8 @@ COPY requirements/piprequirements.txt /home/$NB_USER/piprequirements.txt
 COPY requirements/condap2_requirements.txt /home/$NB_USER/condap2_requirements.txt
 COPY requirements/condap3_requirements.txt /home/$NB_USER/condap3_requirements.txt
 COPY requirements/condar_requirements.txt /home/$NB_USER/condar_requirements.txt
-RUN pip install --upgrade pip && \ 
+RUN conda install --quiet --yes vega --channel conda-forge && \
+    pip install --upgrade pip && \ 
     pip install -r /home/$NB_USER/piprequirements.txt \
     && conda install --quiet --yes --file /home/$NB_USER/condap3_requirements.txt \
     && conda clean -yt \
@@ -216,5 +217,6 @@ RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter && \
     kernelspec install-self && \
     chown -R $NB_USER:users /home/$NB_USER/.local
 USER $NB_USER
+RUN jupyter nbextension enable vega --py --sys-prefix
 
 

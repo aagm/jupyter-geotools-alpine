@@ -144,4 +144,5 @@ dependencies:
   - ipython-genutils==0.1.0
   - jupyter-client==4.4.0
   - jupyter-core==4.3.0
+  - Pydap==3.2.1
 
