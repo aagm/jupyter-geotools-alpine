@@ -11,3 +11,4 @@ xarray
 folium
 geojson
 rasterstats
+jupyter_sphinx_theme

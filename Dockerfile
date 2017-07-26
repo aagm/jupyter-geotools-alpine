@@ -108,7 +108,6 @@ COPY env/python2environment.yml /home/$NB_USER/env/python2environment.yml
 RUN conda install --quiet --yes python=3.5 \
     notebook \
     terminado \
-    ipywidgets \
     'nomkl' \
     'numpy=1.11*' \
     'fiona=1.7*' \
@@ -116,7 +115,6 @@ RUN conda install --quiet --yes python=3.5 \
     'beautifulsoup4=4.5.*' \
     'vincent=0.4.*' \
     'cython=0.23*' \
-    'ipywidgets=5.2*' \
     'numexpr=2.6*' \
     'matplotlib=1.5*' \
     'scipy=0.18*' \
@@ -142,7 +140,8 @@ RUN conda install --quiet --yes python=3.5 \
         jupyter_nbextensions_configurator \
         shapely \
         rasterio \
-        geopandas\
+        geopandas \
+        ipywidgets \
     && conda install -c ioos rtree=0.8.2 \
     && conda clean -yt \
     && conda env create -p $CONDA_DIR/envs/python2 -f /home/$NB_USER/env/python2environment.yml\
