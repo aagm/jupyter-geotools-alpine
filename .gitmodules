@@ -1,0 +1,11 @@
+[submodule "work/proj-test"]
+	path = work/proj-test
+	url = git@github.com:aagm/projects.git
+
+[submodule "work/eubon_butterflies"]
+	path = work/eubon_butterflies
+	url = git@github.com:Vizzuality/eubon_butterflies.git
+
+
+
+	

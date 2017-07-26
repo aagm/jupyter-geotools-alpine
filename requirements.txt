@@ -1,6 +1,0 @@
-jupyter_kernel_gateway
-google-api-python-client
-pyCrypto
-pyOpenSSL
-earthengine-api
-

@@ -2,21 +2,12 @@ version: '2'
 services:
   develop:
     build: .
-    container_name: datascience-notebook-development
+    container_name: viz-notebook
+    environment:
+        - SET_CONTAINER_TIMEZONE=true
+        - CONTAINER_TIMEZONE=Europe/Stockholm
     command: start-notebook.sh --NotebookApp.token=''
     ports:
       - "8888:8888"
-    volumes:
-      - ./work:/home/jovyan/work
-  api:
-    build: .
-    container_name: test
-    command: >
-      jupyter kernelgateway
-      --KernelGatewayApp.api=notebook-http
-      --KernelGatewayApp.ip=0.0.0.0
-      --KernelGatewayApp.seed_uri='./api_notebook.ipynb'
-    ports: 
-      - "8889:8888"
     volumes:
       - ./work:/home/jovyan/work
