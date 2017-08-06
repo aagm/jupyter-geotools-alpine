@@ -9,7 +9,7 @@ cd jupyter-geotools-alpine
 
 Use this as a template for your data science computing notebooks. You need docker and docker-compose.
 
-Just type `sh jupyter.sh develop` and you will be able to connect to `0.0.0.0:8888`.
+Just type `sh jupyter.sh develop` and you will be able to connect to `0.0.0.0:8888`.  
 **note**
 In windows just run:
 ` docker-compose up --build` to up and run the image, and connect to `0.0.0.0:8888`.
