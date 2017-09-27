@@ -134,37 +134,37 @@ RUN conda install --quiet --yes python=3.5 \
     'hdf5=1.8.17' \
     'h5py=2.6*' \
     'xlrd' \
-    && conda clean -yt \
-    && conda install -c conda-forge \
+    && conda clean -yt
+RUN conda install -c conda-forge \
         jupyter_contrib_nbextensions \
         jupyter_nbextensions_configurator \
         shapely \
-        rasterio \
+        rasterio=1.0a9 \
         geopandas \
         ipywidgets \
     && conda install -c ioos rtree=0.8.2 \
-    && conda clean -yt \
-    && conda env create -p $CONDA_DIR/envs/python2 -f /home/$NB_USER/env/python2environment.yml\
-    && ls \
-    && conda clean -yt \
-    && conda config --add channels r \
-    && conda install --quiet --yes \
-    'r-base=3.3.2' \
-    'r-irkernel=0.7*' \
-    'r-plyr=1.8*' \
-    'r-devtools=1.12*' \
-    'r-tidyverse=1.0*' \
-    'r-shiny=0.14*' \
-    'r-rmarkdown=1.2*' \
-    'r-forecast=7.3*' \
-    'r-rsqlite=1.1*' \
-    'r-reshape2=1.4*' \
-    'r-nycflights13=0.2*' \
-    'r-caret=6.0*' \
-    'r-rcurl=1.95*' \
-    'r-crayon=1.3*' \
-    'r-randomforest=4.6*' \
     && conda clean -yt 
+RUN conda env create -p $CONDA_DIR/envs/python2 -f /home/$NB_USER/env/python2environment.yml\
+    && ls \
+    && conda clean -yt 
+#    && conda config --add channels r \
+#    && conda install --quiet --yes \
+#    'r-base=3.3.2' \
+#    'r-irkernel=0.7*' \
+#    'r-plyr=1.8*' \
+#    'r-devtools=1.12*' \
+#    'r-tidyverse=1.0*' \
+#    'r-shiny=0.14*' \
+#    'r-rmarkdown=1.2*' \
+#    'r-forecast=7.3*' \
+#    'r-rsqlite=1.1*' \
+#    'r-reshape2=1.4*' \
+#    'r-nycflights13=0.2*' \
+#    'r-caret=6.0*' \
+#    'r-rcurl=1.95*' \
+#    'r-crayon=1.3*' \
+#    'r-randomforest=4.6*' \
+#    && conda clean -yt 
     
 
 USER root

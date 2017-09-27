@@ -103,7 +103,6 @@ dependencies:
 - pyyaml=3.12=py27_0
 - pyzmq=16.0.2=py27_0
 - qt=5.6.2=2
-- rasterio=1.0a7=np111py27_0
 - readline=6.2=2
 - requests=2.13.0=py27_0
 - scandir=1.4=py27_0
@@ -145,4 +144,5 @@ dependencies:
   - jupyter-client==4.4.0
   - jupyter-core==4.3.0
   - Pydap==3.2.1
+  - sql2gee==0.1.2
 
